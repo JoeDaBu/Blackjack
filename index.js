@@ -63,16 +63,16 @@ function dealerDraw() {
             dealerDraw()
         } else {
             winState = "win"
-            player.chips += 10
+
         }
     } else if (houseSum > sum) {
         winState = 'lose'
-        player.chips -= 10
+
     } else if (houseSum == sum && houseSum > 16) {
         winState = "draw"
     } else if (houseSum > 16) {
         winState = 'win'
-        player.chips += 10
+
     } else {
         preRenderDealer()
         dealerDraw()
@@ -116,7 +116,7 @@ function renderDraw() {
         } else {
             message = "You busted! :("
             isAlive = false
-            player.chips -= 10
+            player.chips -= 20
             revealDealer()
             endGame()
         }
@@ -287,10 +287,10 @@ function renderState() {
         message = "You tied with your opponent!"
     } else if (winState == "lose") {
         message = "Unfortunate, you lost! :("
-        player.chips -= 10
+        player.chips -= 20
     } else if (winState == "win") {
         message = "You win money! :)"
-        player.chips += 10
+        player.chips += 20
     } else {
         message = "error beep boop you have corrupted me, pls contact the emergency services!"
         console.log("error")
