@@ -63,13 +63,16 @@ function dealerDraw() {
             dealerDraw()
         } else {
             winState = "win"
+            player.chips += 10
         }
     } else if (houseSum > sum) {
         winState = 'lose'
+        player.chips -= 10
     } else if (houseSum == sum && houseSum > 16) {
         winState = "draw"
     } else if (houseSum > 16) {
         winState = 'win'
+        player.chips += 10
     } else {
         preRenderDealer()
         dealerDraw()
@@ -79,13 +82,14 @@ function dealerDraw() {
 
 function renderDraw() {
     sumEl.textContent = "Sum: " + sum
-    if (cards.length >= 5) {
-        hasBlackJack = true
-        revealDealer()
-        if(houseSum != 21) {
-            winState = 'win'
-        } else {
-            winState = 'draw'
+    if (sum <= 21) {
+        if (cards.length >= 5) {
+            hasBlackJack = true
+            revealDealer()
+            if(houseSum != 21) {
+                winState = 'win'
+            } else {
+                winState = 'draw'
         }
         renderState()
     } else if (sum <= 20) {
@@ -99,6 +103,7 @@ function renderDraw() {
         } else {
             endGame()
         }
+    }
     } else {
         if (aceP) {
             aceP--
@@ -111,6 +116,7 @@ function renderDraw() {
         } else {
             message = "You busted! :("
             isAlive = false
+            player.chips -= 10
             revealDealer()
             endGame()
         }
@@ -144,6 +150,7 @@ function startGame() {
 }
 
 function endGame() {
+    playerEl.textContent = player.name + ": $" + player.chips
     startBtn.textContent = "RESET GAME"
     startBtn.setAttribute('onclick', 'resetGame()')
 }
@@ -280,12 +287,15 @@ function renderState() {
         message = "You tied with your opponent!"
     } else if (winState == "lose") {
         message = "Unfortunate, you lost! :("
+        player.chips -= 10
     } else if (winState == "win") {
         message = "You win money! :)"
+        player.chips += 10
     } else {
         message = "error beep boop you have corrupted me, pls contact the emergency services!"
         console.log("error")
     }
+
     messageEl.textContent = message
     endGame()
 }
